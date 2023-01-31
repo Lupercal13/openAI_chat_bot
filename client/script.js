@@ -84,7 +84,6 @@ const handleSubmit = async (e) => {
   // messageDiv.innerHTML = "..."
   loader(messageDiv);
 
-  //fet data from server == bot's response
   const response = await fetch("https://codex-ai-chat-bot.onrender.com", {
     method: "POST",
     headers: {
@@ -96,22 +95,22 @@ const handleSubmit = async (e) => {
   });
 
   clearInterval(loadInterval);
-  messageDiv.innerHTML = "";
+  messageDiv.innerHTML = " ";
 
   if (response.ok) {
     const data = await response.json();
-    const parsedData = data.bot.trim();
+    const parsedData = data.bot.trim(); // trims any trailing spaces/'\n'
 
     typeText(messageDiv, parsedData);
   } else {
     const err = await response.text();
 
-    messageDiv.innerHTML = "something went wrong";
+    messageDiv.innerHTML = "Something went wrong";
     alert(err);
   }
 };
 
-form.addEventListener("submit", handleSubmit());
+form.addEventListener("submit", handleSubmit);
 form.addEventListener("keyup", (e) => {
   if (e.keyCode === 13) {
     handleSubmit(e);
